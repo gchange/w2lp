@@ -17,6 +17,7 @@ def make_app():
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", help="config file", type=str, default="config.json")
+    parser.add_argument("--port", help="listen port", type=int, default=80)
     args = parser.parse_args()
 
     with open(args.config, "r") as f:
@@ -24,5 +25,5 @@ if __name__ == "__main__":
     Config.SETTING.update(data)
 
     app = make_app()
-    app.listen(8000)
+    app.listen(args.port)
     tornado.ioloop.IOLoop.current().start()
