@@ -35,7 +35,7 @@ class Message(object):
         root = ElementTree.Element("xml")
         for key, val in data.items():
             child = ElementTree.SubElement(root, key)
-            child.text = self.pack_data(val)
+            child.text = self.pack_data(key, val)
         return ElementTree.tostring(root)
 
     def response(self):
