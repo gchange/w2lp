@@ -12,20 +12,32 @@ class Message(object):
     MSG_TYPE_LOCATION = "location"
     MSG_TYPE_LINK = "link"
 
+    INT_TYPE_DATA = ("CreateTime",)
+
     __slots__ = ["data"]
 
     def __init__(self):
         self.data = {}
 
+    def parse_data(self, key, val):
+        if key in self.INT_TYPE_DATA:
+            return int(val)
+        return val[8:-1]
+
+    def pack_data(self, key, val):
+        if key in self.INT_TYPE_DATA:
+            return int(val)
+        return "![CDATA[" + val + "]]"
+
     def loads(self, text: str):
         root = ElementTree.fromstring(text)
-        self.data = {child.tag: child.text for child in root}
+        self.data = {child.tag: self.parse_data(child.tag, child.text) for child in root}
 
     def dump(self, data):
         root = ElementTree.Element("xml")
         for key, val in data.items():
             child = ElementTree.SubElement(root, key)
-            child.text = val
+            child.text = self.pack_data(val)
         return ElementTree.tostring(root)
 
     def response(self):
