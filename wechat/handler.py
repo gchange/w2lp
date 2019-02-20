@@ -3,6 +3,7 @@
 import hashlib
 import tornado.web
 import tornado.httpserver
+import logging
 from ..config import Config
 from .message import Message
 from http.server import HTTPStatus
@@ -15,13 +16,13 @@ class Handler(tornado.web.RequestHandler):
         noce = self.get_argument("nonce", None, True)
         echostr = self.get_argument("echostr", None, True)
 
-        list = [Config.SETTING["token"], timestamp, noce]
-        list.sort()
-        sha1 = hashlib.sha1()
-        map(sha1.update, list)
+        args = [Config.SETTING["token"], timestamp, noce]
+        args.sort()
+        sha1 = hashlib.sha1("".join(args).encode("utf8"))
         hashcode = sha1.hexdigest()
         if hashcode != signature:
             self.send_error(HTTPStatus.UNAUTHORIZED)
+            logging.error("signature: %s != %s", hashcode, signature)
             return
 
         self.write(echostr)
