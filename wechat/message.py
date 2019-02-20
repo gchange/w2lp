@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import time
 from xml.etree import ElementTree
 
 
@@ -56,7 +57,11 @@ class Message(object):
             pass
         else:
             return b"success"
-        data = {}
-        data.update(self.data)
-        data["ToUserName"], data["FromUserName"] = data["FromUserName"], data["ToUserName"]
+        data = {
+            "ToUserName": self.data["FromUserName"],
+            "FromUserName": self.data["ToUserName"],
+            "CreateTime": str(int(time.time())),
+            "MsgType": "text",
+            "Content": self.data.get("Content") or "ok"
+        }
         return self.dump(data)
