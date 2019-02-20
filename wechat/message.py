@@ -26,7 +26,7 @@ class Message(object):
         for key, val in data.items():
             child = ElementTree.SubElement(root, key)
             child.text = val
-        return ElementTree.dump(root)
+        return ElementTree.tostring(root)
 
     def response(self):
         msg_type = self.data["MsgType"]
@@ -45,5 +45,5 @@ class Message(object):
         elif msg_type == self.MSG_TYPE_LINK:
             pass
         else:
-            return "success"
+            return b"success"
         return self.dump(self.data)

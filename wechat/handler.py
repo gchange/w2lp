@@ -30,5 +30,5 @@ class Handler(tornado.web.RequestHandler):
     def post(self, *args, **kwargs):
         msg = Message()
         msg.loads(self.request.body)
-        self.write(msg.response().encode("utf8"))
+        self.write(msg.response())
 
