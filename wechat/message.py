@@ -20,9 +20,7 @@ class Message(object):
         self.data = {}
 
     def parse_data(self, key, val):
-        if key in self.INT_TYPE_DATA:
-            return int(val)
-        return val[8:-1]
+        return val
 
     def pack_data(self, key, val):
         if key in self.INT_TYPE_DATA:
