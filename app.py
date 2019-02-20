@@ -2,17 +2,15 @@
 
 import argparse
 import json
-
-from .config import Config
-from .wechat.authorize import AuthorizeHandler
-
 import tornado.ioloop
 import tornado.web
+from .config import Config
+from .wechat.handler import Handler
 
 
 def make_app():
     return tornado.web.Application([
-        (r"/wechat", AuthorizeHandler),
+        (r"/wechat", Handler),
     ])
 
 
