@@ -18,7 +18,7 @@ def make_app():
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", help="config file", type=str, default="config.py")
+    parser.add_argument("--config", help="config file", type=str, default="config.json")
     args = parser.parse_args()
 
     with open(args.config, "rb") as f:
