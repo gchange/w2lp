@@ -26,7 +26,7 @@ class Message(object):
     def pack_data(self, key, val):
         if key in self.INT_TYPE_DATA:
             return str(val)
-        return "![CDATA[" + val + "]]"
+        return "<![CDATA[" + val + "]]>"
 
     def loads(self, text: str):
         root = ElementTree.fromstring(text)
