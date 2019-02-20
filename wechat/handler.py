@@ -9,15 +9,11 @@ from http.server import HTTPStatus
 
 
 class Handler(tornado.web.RequestHandler):
-    def __init__(self, application: tornado.web.Application, request: tornado.httpserver.HTTPRequest, **kwargs):
-        super(Handler, self).__init__(application, request, **kwargs)
-        self.echostr = ""
-
     def get(self):
         signature = self.get_argument("signature", None, True)
         timestamp = self.get_argument("timestamp", None, True)
         noce = self.get_argument("nonce", None, True)
-        self.echostr = self.get_argument("echostr", None, True)
+        echostr = self.get_argument("echostr", None, True)
 
         list = [Config.SETTING["token"], timestamp, noce]
         list.sort()
@@ -26,6 +22,9 @@ class Handler(tornado.web.RequestHandler):
         hashcode = sha1.hexdigest()
         if hashcode != signature:
             self.send_error(HTTPStatus.UNAUTHORIZED)
+            return
+
+        self.write(echostr)
 
     def post(self, *args, **kwargs):
         msg = Message()
