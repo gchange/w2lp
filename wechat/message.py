@@ -56,4 +56,6 @@ class Message(object):
             pass
         else:
             return b"success"
+        data = {}.update(self.data)
+        data["ToUserName"], data["FromUserName"] = data["FromUserName"], data["ToUserName"]
         return self.dump(self.data)
