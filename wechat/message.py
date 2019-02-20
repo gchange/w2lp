@@ -59,4 +59,4 @@ class Message(object):
         data = {}
         data.update(self.data)
         data["ToUserName"], data["FromUserName"] = data["FromUserName"], data["ToUserName"]
-        return self.dump(self.data)
+        return self.dump(data)
