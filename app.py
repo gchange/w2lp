@@ -21,7 +21,7 @@ if __name__ == "__main__":
     parser.add_argument("--config", help="config file", type=str, default="config.json")
     args = parser.parse_args()
 
-    with open(args.config, "rb") as f:
+    with open(args.config, "r") as f:
         data = json.load(f)
     for k, v in data:
         Config[k] = v
