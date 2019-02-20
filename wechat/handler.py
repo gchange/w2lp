@@ -19,7 +19,7 @@ class Handler(tornado.web.RequestHandler):
         noce = self.get_argument("nonce", None, True)
         self.echostr = self.get_argument("echostr", None, True)
 
-        list = [Config["token"], timestamp, noce]
+        list = [Config.SETTING["token"], timestamp, noce]
         list.sort()
         sha1 = hashlib.sha1()
         map(sha1.update, list)

@@ -9,11 +9,11 @@ from ..config import Config
 class Scheduler(object):
     @staticmethod
     async def refresh_token():
-        appid = Config["appid"]
-        secret = Config["secret"]
+        appid = Config.SETTING["appid"]
+        secret = Config.SETTING["secret"]
         grant_type = "client_credential"
 
-        url = Config["wechat"] + "/cig-bin/token"
+        url = Config.SETTING["wechat"] + "/cig-bin/token"
         resp = await aiohttp.request("GET", url, params=dict(grant_type=grant_type, appid=appid, secret=secret))
         if resp.status != HTTPStatus.OK:
             logging.error("status: %d reason: %s", resp.status, resp.reason)

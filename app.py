@@ -23,8 +23,7 @@ if __name__ == "__main__":
 
     with open(args.config, "r") as f:
         data = json.load(f)
-    for k, v in data.items():
-        Config[k] = v
+    Config.SETTING.update(data)
 
     app = make_app()
     app.listen(8000)
