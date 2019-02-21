@@ -64,4 +64,4 @@ class Message(object):
             "MsgType": "text",
             "Content": self.data.get("Content") or "ok"
         }
-        return self.dump(data).encode("utf8")
+        return self.dump(data)
