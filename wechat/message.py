@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import time
-from xml.etree import ElementTree
+from lxml import etree
 
 
 class Message(object):
@@ -26,18 +26,18 @@ class Message(object):
     def pack_data(self, key, val):
         if key in self.INT_TYPE_DATA:
             return str(val)
-        return "<![CDATA[" + val + "]]>"
+        return etree.CDATA(val)
 
     def loads(self, text: str):
-        root = ElementTree.fromstring(text)
+        root = etree.fromstring(text)
         self.data = {child.tag: self.parse_data(child.tag, child.text) for child in root}
 
     def dump(self, data):
-        root = ElementTree.Element("xml")
+        root = etree.Element("xml")
         for key, val in data.items():
-            child = ElementTree.SubElement(root, key)
+            child = etree.SubElement(root, key)
             child.text = self.pack_data(key, val)
-        return ElementTree.tostring(root)
+        return etree.tostring(root)
 
     def response(self):
         msg_type = self.data["MsgType"]
@@ -64,4 +64,4 @@ class Message(object):
             "MsgType": "text",
             "Content": self.data.get("Content") or "ok"
         }
-        return self.dump(data)
+        return self.dump(data).encode("utf8")
